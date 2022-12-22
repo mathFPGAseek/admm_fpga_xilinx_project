@@ -27,7 +27,7 @@ rows = 256; % equal column for square image
 fixed_point_length = 34;
 
 % Import Table
-fft1dmemvectors = importfile("C:\design\phd_ee\summer_2022_fpga_accel_admm_lenless_camera\admm_fpga_xilinx_project\ip\fft_256_test_2\xfft_0\cmodel\xfft_v9_1_bitacc_cmodel_nt64\fft_1d_mem_vectors.txt", [1, Inf]);
+fft1dmemvectors = importfile("C:\design\phd_ee\summer_2022_fpga_accel_admm_lenless_camera\admm_fpga_xilinx_project\ip\fft_256_test_2\xfft_0\cmodel\xfft_v9_1_bitacc_cmodel_nt64\fft_1d_mem_raw_vectors.txt", [1, Inf]);
 size_string = size(fft1dmemvectors,1);
 
 % Split into Real and Imag Strings
