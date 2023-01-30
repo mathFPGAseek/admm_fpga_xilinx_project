@@ -57,7 +57,7 @@ else
 end
 
 % Perform 1-D FFT check
-compare_hdl_sim_2_mat_sim_spec_1d_fft; % Checked Data & fftshift
+compare_hdl_sim_2_mat_sim_spec_1d_fft; % Checked Data & fftshift (Also reorders Viv vectors)
 pause(15); % Check errors by inspection
 
 close all; clearvars;  
@@ -65,9 +65,7 @@ close all; clearvars;
 %--------------------------------------------------------------------------
 %% Generate 2-D FFT vectors
 %--------------------------------------------------------------------------
-% rerun check to generate non-shifted vectors
-compare_hdl_sim_2_mat_sim_spec_1d_fft_DEBUG;
-
+regenerate_and_reorder_input_vectors_for_2d_fft; % vectors unshifted
 generate_tb_fista_input_vectors_for_2d_fft; % COPY to viv wk
 
 if exist('real_A_forward_2d_psf_vectors.txt', 'file') && exist('imag_A_forward_2d_psf_vectors.txt')
@@ -96,7 +94,7 @@ end
 
 
 % Generate Matlab model data to be checked against
-run_xfft_v9_1_pipe_mex_2d_fft_no_shift_DEBUG;
+run_xfft_v9_1_pipe_mex_2d_fft_no_shift_no_shift;
 
 if exist('ImgByRow','var')
     disp(' Generate MAT file for 2-D FFT checking');
@@ -112,20 +110,35 @@ pause(15); % Check errors by inspection
 
 close all; clearvars; 
 
-debug = 1;
 %--------------------------------------------------------------------------
 %% Pad h and FFT ---> 2D H unshifted & generate vectors
 %--------------------------------------------------------------------------
+matrix_A_F_H_run_xfft_v9_1_pipe_mex_2d_fft_no_shift;
+if exist('2d_real_H_psf_vectors.txt', 'file') && exist('2d_imag_H_psf_vectors.txt', 'file')
+     disp(' File generated, H vectors for Hadmard Product');
+     close all; clearvars; 
+else
+     error('Error: File does not exist \n');
+end
+
+debug = 1;
 
 %--------------------------------------------------------------------------
 %% reload 2D V unshifted & generate vectors
 %--------------------------------------------------------------------------
-load('A_fwd_fft_2d_seq_matrix_fr_viv_sim.mat');
+regenerate_A_fwd_V_2d_fft;
+generate_tb_fista_input_V_vectors_for_A_hadmard;
+if exist('real_A_forward_V_hadmard_vector.txt') && exist('imag_A_forward_V_hadmard_vector.txt', 'file')
+     disp(' File generated, V vectors for Hadmard Product');
+     close all; clearvars; 
+else
+     error('Error: File does not exist \n');
+end
 
 %--------------------------------------------------------------------------
 %% Run Vivado FPGA simulator; External tool
 %--------------------------------------------------------------------------
-
+debug = 1;
 %--------------------------------------------------------------------------
 %% Check Hadmard Product simulation
 %--------------------------------------------------------------------------
