@@ -138,6 +138,7 @@ end
 %--------------------------------------------------------------------------
 %% Run Vivado FPGA simulator; External tool
 %--------------------------------------------------------------------------
+disp(' Vivado Hadmard Prodcut should have been run ');
 debug = 1;
 %--------------------------------------------------------------------------
 %% Check Hadmard Product simulation
