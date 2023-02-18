@@ -143,6 +143,45 @@ debug = 1;
 %--------------------------------------------------------------------------
 %% Check Hadmard Product simulation
 %--------------------------------------------------------------------------
+convert_vectors_to_decimal_A_hadmard_2d; % after COPYING from viv wk "hadmard_A_forward_2d_mem_raw_vectors.txt"
+
+% Generate Xilinx MAT data to be checked
+if exist('complex_image_array','var')
+    disp(' Generate MAT Xilinx file for 2-D Hadmard checking');
+    save('A_fwd_hadmard_2d_seq_matrix_fr_viv_sim.mat','complex_image_array');
+    clearvars;
+else
+    error('Error: Could not generate MAT Xilinx file for testing');
+end
+
+
+% Generate Matlab model data to be checked against
+gen_H;
+
+if exist('PreImage','var')
+    disp(' Generate MAT file for Hadmard checking');
+    save('H.mat','PreImage'); %% no fftshift
+    close all; clearvars;
+else
+    error('Error: Could not generate MAT file for testing');
+end
+
+% Generate Matlab model data to be checked against
+gen_V; % alias regenerate_A_fwd_V_2d_fft.m
+
+if exist('reorderedHdlSim','var')
+    disp(' Generate MAT file for Hadmard checking');
+    save('V.mat','reorderedHdlSim'); %% no fftshift
+    close all; clearvars;
+else
+    error('Error: Could not generate MAT file for testing');
+end
+
+% Perform Hadmard "A" check
+check_hadmard_A;  
+pause(15); % Check errors by inspection
+
+close all; clearvars; 
 
 %--------------------------------------------------------------------------
 %% Generate 1-D IFFT vectors

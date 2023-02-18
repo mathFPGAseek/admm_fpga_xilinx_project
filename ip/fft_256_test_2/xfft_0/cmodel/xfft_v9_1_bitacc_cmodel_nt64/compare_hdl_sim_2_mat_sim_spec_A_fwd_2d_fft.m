@@ -77,8 +77,26 @@ reorderedspectrumMatSim = fftshift(ImgByColFrMatSimSeq,1);
 reorderedMatSimMag  = abs(reorderedspectrumMatSim );
 reorderedHdlSimMag  = abs(reorderedHdlSim);
 
+figure(1);
 diff = reorderedMatSimMag  - reorderedHdlSimMag;
 surf(diff,'edgecolor','none');
+
+figure(2);
+subplot(1,2,1);plot(reorderedMatSimMag(:,5));axis([1 256 0 1e-3])
+title('Matlab 2-D FFT')
+subplot(1,2,2);plot(reorderedHdlSimMag(:,5),'r');axis([1 256 0 1e-3])
+title('HDL 2-D FFT')
+% debug
+figure(3);
+plot(reorderedMatSimMag(:,5));
+axis([1 256 0 1e-3])
+grid ON
+hold on
+plot(reorderedHdlSimMag(:,5),'r');
+hold off
+legend('matlab data','hdl data')
+title('2-D FFT ')
+debug = 1;
 
 
 
