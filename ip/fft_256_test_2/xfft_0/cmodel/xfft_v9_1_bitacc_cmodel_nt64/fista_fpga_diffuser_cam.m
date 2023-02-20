@@ -186,11 +186,20 @@ close all; clearvars;
 %--------------------------------------------------------------------------
 %% Generate 1-D IFFT vectors
 %--------------------------------------------------------------------------
+generate_tb_A_1d_ifft; % COPY to viv wk
+
+if exist('real_A_1d_ifft_vectors.txt', 'file') && exist('imag_A_1d_ifft_vectors.txt')
+     disp(' File generated, vectors for 1-D IFFT');
+     close all; clearvars; 
+else
+     error('Error: Files does not exist \n');
+end
 
 %--------------------------------------------------------------------------
 %% Run Vivado FPGA simulator; External tool
 %--------------------------------------------------------------------------
-
+disp(' Vivado 1-D IFFT calc Matrix A should have been run ');
+debug = 1;
 %--------------------------------------------------------------------------
 %% Check 1-D IFFT simulation
 %--------------------------------------------------------------------------
