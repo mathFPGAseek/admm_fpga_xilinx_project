@@ -5,7 +5,7 @@
 % descr: Semi-automatic outline to validate fista fpga design
 %
 %--------------------------------------------------------------------------
-
+%{
 %--------------------------------------------------------------------------
 %% General check of MEX FFT core
 %--------------------------------------------------------------------------
@@ -194,7 +194,7 @@ if exist('real_A_1d_ifft_vectors.txt', 'file') && exist('imag_A_1d_ifft_vectors.
 else
      error('Error: Files does not exist \n');
 end
-
+%}
 %--------------------------------------------------------------------------
 %% Run Vivado FPGA simulator; External tool
 %--------------------------------------------------------------------------
@@ -203,6 +203,37 @@ debug = 1;
 %--------------------------------------------------------------------------
 %% Check 1-D IFFT simulation
 %--------------------------------------------------------------------------
+
+convert_vectors_to_decimal_ifft; % after COPYING from viv wk "ifft_1d_mem_raw_vevtors"
+
+% Generate Xilinx MAT data to be checked
+if exist('complex_image_array','var')
+    disp(' Generate MAT Xilinx file for 1-D IFFT checking');
+    save('ifft_1d_seq_matrix_fr_viv_sim.mat','complex_image_array');
+    clearvars;
+else
+    error('Error: Could not generate MAT Xilinx file for testing');
+end
+
+
+% Generate Matlab model data to be checked against
+gen_A_ifft_1d; % use 'hadmard_prod_mat' from check_hadmard_A.m;  
+
+if exist('ImgByRow','var')
+    disp(' Generate MAT file for 1-D IFFT checking');
+    save('ifft_1d_seq_matrix_fr_matlab.mat','ImgByRow'); %% no fftshift
+    close all; clearvars;
+else
+    error('Error: Could not generate MAT file for testing');
+end
+
+% Perform 1-D FFT check
+check_A_ifft_1d; % Checked Data & fftshift (Also reorders Viv vectors)
+%pause(15); % Check errors by inspection
+debug = 1;
+close all; clearvars; 
+
+
 
 %--------------------------------------------------------------------------
 %% Generate 2-D IFFT vectors
