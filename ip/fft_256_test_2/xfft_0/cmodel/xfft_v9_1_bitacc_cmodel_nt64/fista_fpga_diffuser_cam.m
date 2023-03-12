@@ -234,11 +234,14 @@ debug = 1;
 close all; clearvars; 
 
 
-%}
+
 %--------------------------------------------------------------------------
 %% Generate 2-D IFFT vectors
 %--------------------------------------------------------------------------
-generate_tb_A_2d_ifft;
+regenerate_and_reorder_input_vectors_for_2d_ifft; % vectors unshifted
+generate_tb_fista_input_vectors_for_2d_ifft; % COPY to viv wk
+% THIS IS INCORRECT !!: generate_tb_A_2d_ifft;
+% ??? Compare these vectors to old vectors to make sure they are different
 if exist('real_A_2d_ifft_vectors.txt', 'file') && exist('imag_A_2d_ifft_vectors.txt')
      disp(' File generated, vectors for 2-D IFFT');
      close all; clearvars; 
@@ -250,6 +253,7 @@ end
 %--------------------------------------------------------------------------
 disp(' Vivado 2-D IFFT calc Matrix A should have been run ');
 debug = 1;
+%}
 %--------------------------------------------------------------------------
 %% Check 2-D IFFT simulation
 %--------------------------------------------------------------------------
@@ -267,6 +271,8 @@ end
 
 
 % Generate Matlab model data to be checked against
+% ???So, the hadmard should work here; double check and use hadmard( need
+% to make change
 gen_A_ifft_2d; % same as gen_A_ifft_1d; use 'hadmard_prod_mat' from check_hadmard_A.m; 
 
 if exist('ImgByRow','var')

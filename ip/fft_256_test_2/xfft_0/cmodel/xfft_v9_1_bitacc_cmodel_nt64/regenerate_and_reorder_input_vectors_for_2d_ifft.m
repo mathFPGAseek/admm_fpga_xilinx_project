@@ -63,43 +63,6 @@ for i = 1 : rows
     end
     k = 1;
 end
-NonshiftedreorderedHdlSim         = 2*reorderedHdlSim(1,:);
-NonshiftedreorderedspectrumMatSim = ImgByRowFrMatSimSeq(1,:);
-
-NonshiftedreorderedHdlSim_2         = 2*reorderedHdlSim(2,:);
-NonshiftedreorderedspectrumMatSim_2 = ImgByRowFrMatSimSeq(2,:);
-
-NonshiftedreorderedHdlSim_3         = 2*reorderedHdlSim(3,:);
-NonshiftedreorderedspectrumMatSim_3 = ImgByRowFrMatSimSeq(3,:);
-
-NonshiftedreorderedHdlSim_4         = 2*reorderedHdlSim(4,:);
-NonshiftedreorderedspectrumMatSim_4 = ImgByRowFrMatSimSeq(4,:);
-
-NonshiftedreorderedHdlSim_32         = 2*reorderedHdlSim(32,:);
-NonshiftedreorderedspectrumMatSim_32 = ImgByRowFrMatSimSeq(32,:);
-
-NonshiftedreorderedHdlSim_220         = 2*reorderedHdlSim(220,:);
-NonshiftedreorderedspectrumMatSim_220 = ImgByRowFrMatSimSeq(220,:);
-
-%% reorder as a spectrum that has center frquency as dc( bin 0)
-reorderedHdlSim         = fftshift(2*reorderedHdlSim,2);
-reorderedspectrumMatSim = fftshift(ImgByRowFrMatSimSeq,2);
-
-% arrange sequences as columns for debugging
-TransposeImgByRowFrHdlSimSeq     = reorderedHdlSim(1,:)';
-TransposeImgByRowFrMatSimSeq     = reorderedspectrumMatSim(1,:)';
-TransposeImgByRowFrHdlSimSeq_32     = reorderedHdlSim(32,:)';
-TransposeImgByRowFrMatSimSeq_32     = reorderedspectrumMatSim(32,:)';
-TransposeImgByRowFrHdlSimSeq_220     = reorderedHdlSim(220,:)';
-TransposeImgByRowFrMatSimSeq_220     = reorderedspectrumMatSim(220,:)';
-
-
-% compare mag
-reorderedMatSimMag  = abs(reorderedspectrumMatSim );
-reorderedHdlSimMag  = abs(reorderedHdlSim);
-
-diff = reorderedMatSimMag  - reorderedHdlSimMag;
-surf(diff,'edgecolor','none');
 
 
 

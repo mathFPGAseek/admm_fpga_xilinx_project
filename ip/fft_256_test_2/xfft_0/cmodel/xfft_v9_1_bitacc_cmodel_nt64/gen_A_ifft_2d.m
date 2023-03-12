@@ -84,6 +84,7 @@ N_imp = 16;
 X = uint8(image_out);
 %}
 load('hadmard_A_matlab_sim.mat','hadmard_prod_mat');
+%load('ifft_1d_seq_matrix_fr_matlab.mat');
       
 if channels > 1
      fprintf('Running the MEX function for channel %d...\n',channel)
@@ -150,12 +151,15 @@ for channel = 1:channels
   end
 
   % Set FFT (1) or IFFT (0)
-  direction = 0;      
+  direction = 0; 
+
   
   % Run the MEX function
   [output, blkexp, overflow] = xfft_v9_1_bitacc_mex(generics, nfft, input, scaling_sch, direction);
   %ImgByRow(i,:) = (fftshift(output));
   ImgByRow(i,:) = output;
+
+ 
 
   % Check overflow if used: scaling schedule should ensure that overflow never occurs
   if generics.C_HAS_SCALING == 1 && generics.C_HAS_BFP == 0

@@ -73,8 +73,8 @@ reorderedspectrumMatSim = fftshift(ImgByColFrMatSimSeq,1);
 %TransposeImgByRowFrHdlSimSeq     = reorderedHdlSim(120,:)';
 %TransposeImgByRowFrMatSimSeq     = reorderedspectrumMatSim(120,:)';
 % arrange sequences as columns for debugging
-TransposeImgByRowFrHdlSimSeq     = reorderedHdlSim(1,:)';
-TransposeImgByRowFrMatSimSeq     = reorderedspectrumMatSim(1,:)';
+TransposeImgByRowFrHdlSimSeq     = reorderedHdlSim(:,1)';
+TransposeImgByRowFrMatSimSeq     = reorderedspectrumMatSim(:,1)';
 
 
 % compare mag
@@ -93,7 +93,7 @@ title('HDL 2-D FFT')
 % debug
 figure(3);
 plot(reorderedMatSimMag(:,5));
-axis([1 256 0 1e-3])
+axis([1 256 0 10e-8])
 grid ON
 hold on
 plot(reorderedHdlSimMag(:,5),'r');
