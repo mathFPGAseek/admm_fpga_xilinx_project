@@ -253,7 +253,7 @@ end
 %--------------------------------------------------------------------------
 disp(' Vivado 2-D IFFT calc Matrix A should have been run ');
 debug = 1;
-%}
+
 %--------------------------------------------------------------------------
 %% Check 2-D IFFT simulation
 %--------------------------------------------------------------------------
@@ -288,6 +288,7 @@ check_A_ifft_2d; % Checked Data & fftshift (Also reorders Viv vectors)
 %pause(15); % Check errors by inspection
 debug = 1;
 close all; clearvars; 
+%}
 %--------------------------------------------------------------------------
 %% Generate Crop vectors
 %--------------------------------------------------------------------------
@@ -303,7 +304,43 @@ disp(' No crop of vectors ');
 %--------------------------------------------------------------------------
 %% Completed Calc A
 %--------------------------------------------------------------------------
+disp(' Completed Calc. of A ');
 debug = 1;
+%% ??? Look into Python, if numbers are becoming too small ???
+%--------------------------------------------------------------------------
+%% Generate Av-b vectors
+%--------------------------------------------------------------------------
+% Generate Av vectors
+% regenerate; Uses Mat file previous stage bits--> complex numeric vectors
+% unshifted & unordered
+regenerate_and_reorder_input_vectors_for_Av; 
+generate_tb_fista_input_vectors_for_Av; % COPY to viv wk
+if exist('real_Av_vectors.txt', 'file') && exist('imag_Av_vectors.txt')
+     disp(' File generated, vectors for 2-D IFFT');
+     close all; clearvars; 
+else
+     error('Error: Files does not exist \n');
+end
+%--------------------------------------------------------------------------
+%% Generate b vectors ---> 2D H unshifted & generate vectors
+%--------------------------------------------------------------------------
+gen_b; % same as generating H
+if exist('real_b_vectors.txt', 'file') && exist('imag_b_vectors.txt', 'file')
+     disp(' File generated, b vectors for AV-b procesing');
+     close all; clearvars; 
+else
+     error('Error: File does not exist \n');
+end
+
+debug = 1;
+
+%% ??? Need to generate b vectors, use H ???
+%--------------------------------------------------------------------------
+%% Run Vivado FPGA simulator; External tool
+%--------------------------------------------------------------------------
+disp(' Vivado Av -b should have been run ');
+debug = 1;
+
 
 
 
