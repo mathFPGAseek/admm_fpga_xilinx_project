@@ -5,10 +5,11 @@
 % descr: Semi-automatic outline to validate fista fpga design
 %
 %--------------------------------------------------------------------------
-%{
+%
 %--------------------------------------------------------------------------
 %% General check of MEX FFT core
 %--------------------------------------------------------------------------
+%{
 run_xfft_v9_1_pipe_mex;
 
 pause(15); % check that we get star pattern from small aperture of light
@@ -248,6 +249,7 @@ if exist('real_A_2d_ifft_vectors.txt', 'file') && exist('imag_A_2d_ifft_vectors.
 else
      error('Error: Files does not exist \n');
 end
+debug = 1;
 %--------------------------------------------------------------------------
 %% Run Vivado FPGA simulator; External tool
 %--------------------------------------------------------------------------
@@ -288,7 +290,7 @@ check_A_ifft_2d; % Checked Data & fftshift (Also reorders Viv vectors)
 %pause(15); % Check errors by inspection
 debug = 1;
 close all; clearvars; 
-%}
+
 %--------------------------------------------------------------------------
 %% Generate Crop vectors
 %--------------------------------------------------------------------------
@@ -306,7 +308,6 @@ disp(' No crop of vectors ');
 %--------------------------------------------------------------------------
 disp(' Completed Calc. of A ');
 debug = 1;
-%% ??? Look into Python, if numbers are becoming too small ???
 %--------------------------------------------------------------------------
 %% Generate Av-b vectors
 %--------------------------------------------------------------------------
@@ -333,13 +334,33 @@ else
 end
 
 debug = 1;
-
-%% ??? Need to generate b vectors, use H ???
+%}
 %--------------------------------------------------------------------------
 %% Run Vivado FPGA simulator; External tool
 %--------------------------------------------------------------------------
 disp(' Vivado Av -b should have been run ');
 debug = 1;
+%--------------------------------------------------------------------------
+%% Check Av-b simulation
+%--------------------------------------------------------------------------
+
+% after COPYING from viv wk "AV_minus_b_raw_vectors.txt"
+convert_vectors_to_decimal_Av_minus_b;
+% Generate Xilinx MAT data to be checked
+if exist('complex_image_array','var')
+    disp(' Generate MAT Xilinx file for Av-b checking');
+    save('Av_minus_b_fr_viv_sim.mat','complex_image_array');
+    clearvars;
+else
+    error('Error: Could not generate MAT Xilinx file for testing');
+end
+
+
+% Perform Av-b check
+check_Av_minus_b; % Gen Matlab model & check against vivado
+%pause(15); % Check errors by inspection
+debug = 1;
+close all; clearvars; 
 
 
 

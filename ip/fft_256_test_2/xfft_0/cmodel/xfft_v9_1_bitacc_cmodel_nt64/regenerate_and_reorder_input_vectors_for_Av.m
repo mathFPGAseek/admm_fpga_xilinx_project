@@ -49,6 +49,11 @@ for i = 1 : col
     k = 1;
 end
 
+% refactor for scaling from FFTs
+reorderedHdlSim = 256*256*reorderedHdlSim;
+
+% Empirical correction from Hadmard mult w/ H
+reorderedHdlSim = 4*reorderedHdlSim;
 
 
 debug = 1;
